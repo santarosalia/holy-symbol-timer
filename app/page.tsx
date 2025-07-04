@@ -111,6 +111,11 @@ export default function Home() {
           <div className="flex justify-center ">
           {is85 ? <Image src="/manghi85.png" alt="manghi" width={100} height={100} className="mb-3"  /> : <Image src="/manghi.png" alt="manghi" width={80} height={80}  />}
           </div>
+          <div className="flex justify-center items-center ml-5">
+          <Image src="/무지개구름l.png" width={23} height={10} alt="무지개"></Image>
+          <span className="flex h-[21px] text-xs text-white false false" style={{backgroundImage: 'url(/무지개구름c.png)', paddingTop:3}}>김망히</span>
+          <Image src="/무지개구름r.png" width={21} height={10} alt="무지개"></Image>
+          </div>
           </div>
         
         <div className="flex items-center justify-center mb-6">
