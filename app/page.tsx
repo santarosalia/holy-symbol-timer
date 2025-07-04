@@ -106,7 +106,7 @@ export default function Home() {
       }`}>
         <div className="flex mb-8 flex-col "style={{backgroundColor: "#bebebe"}} >
           <div className="flex justify-center">
-          <video src="/holysymbol.mp4" autoPlay loop muted className="w-1/2 h-1/2" />
+          <video src="/holysymbol.mp4" autoPlay loop muted playsInline className="w-1/2 h-1/2" />
           </div>
           <div className="flex justify-center ">
           {is85 ? <Image src="/manghi85.png" alt="manghi" width={100} height={100} className="mb-3"  /> : <Image src="/manghi.png" alt="manghi" width={80} height={80}  />}
