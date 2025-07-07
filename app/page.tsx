@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 export default function Home() {
@@ -13,11 +13,13 @@ export default function Home() {
         typeof window !== 'undefined' ? new Audio('/notification.mp3') : null
     );
 
-    document.addEventListener('keydown', (e) => {
-        if (e.ctrlKey && e.key === ' ') {
-            resetTimer();
-        }
-    });
+    useEffect(() => {
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === ' ') {
+                resetTimer();
+            }
+        });
+    }, []);
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
