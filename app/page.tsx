@@ -161,7 +161,7 @@ export default function Home() {
                 window.ipcRenderer.off('keyboard-shortcut', handleKeyboardShortcut);
             }
         };
-    }, [isRunning, isPaused]);
+    }, [isRunning, isPaused, type]);
 
     const onClickDownload = () => {
         const a = document.createElement('a');
