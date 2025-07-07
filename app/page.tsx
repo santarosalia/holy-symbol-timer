@@ -21,8 +21,8 @@ export default function Home() {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
-            e.preventDefault();
             if (e.ctrlKey && e.key === ' ') {
+            e.preventDefault();
                 resetTimer();
             }
         };
