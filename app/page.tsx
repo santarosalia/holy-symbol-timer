@@ -142,6 +142,13 @@ export default function Home() {
         };
     }, [isRunning, isPaused]);
 
+    const onClickDownload = () => {
+        const a = document.createElement('a');
+        a.href = '/김망히 홀심 타이머-Windows-1.0.0-Setup.exe';
+        a.download = '/김망히 홀심 타이머-Windows-1.0.0-Setup.exe';
+        a.click();
+    };
+
     return (
         <div
             className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4 transition-all duration-300 ${
@@ -153,6 +160,12 @@ export default function Home() {
                     isAlarmActive ? 'animate-pulse bg-red-100 dark:bg-red-900/30' : ''
                 }`}
             >
+                <button
+                    onClick={onClickDownload}
+                    className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                >
+                    다운로드
+                </button>
                 <div
                     className="flex mb-8 flex-col "
                     style={{ backgroundColor: '#bebebe' }}
@@ -168,22 +181,13 @@ export default function Home() {
                         />
                     </div>
                     <div className="flex justify-center ">
-                        {is85 ? (
-                            <Image
-                                src="/manghi85.png"
-                                alt="manghi"
-                                width={100}
-                                height={100}
-                                className="mb-3"
-                            />
-                        ) : (
-                            <Image
-                                src="/manghi.png"
-                                alt="manghi"
-                                width={80}
-                                height={80}
-                            />
-                        )}
+                        <Image
+                            src="/manghi85.png"
+                            alt="manghi"
+                            width={100}
+                            height={100}
+                            className="mb-3"
+                        />
                     </div>
                     <div className="flex justify-center items-center ml-5">
                         <Image
@@ -210,23 +214,6 @@ export default function Home() {
                     </div>
                 </div>
 
-                <div className="flex items-center justify-center mb-6">
-                    <span className="text-sm font-medium text-gray-700 dark:text-gray-300 mr-3">
-                        케이그
-                    </span>
-                    <button
-                        onClick={toggleIs85}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-200 ${
-                            is85 ? 'bg-indigo-600' : 'bg-gray-300'
-                        }`}
-                    >
-                        <span
-                            className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform duration-200 ${
-                                is85 ? 'translate-x-6' : 'translate-x-1'
-                            }`}
-                        />
-                    </button>
-                </div>
                 <div className="flex items-center justify-center mb-6">
                     <input
                         type="number"
