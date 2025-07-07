@@ -4,7 +4,13 @@ import { useState, useEffect, useRef } from 'react';
 import Image from 'next/image';
 
 export default function Home() {
-    const [timeLeft, setTimeLeft] = useState(120); // 120초
+    const LEFT_TIME = {
+        symbol: 120,
+        lore: 240,
+    };
+
+    const [type, setType] = useState<'symbol' | 'lore'>('symbol');
+    const [timeLeft, setTimeLeft] = useState(LEFT_TIME.symbol);
     const [isRunning, setIsRunning] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
     const [alarmTime, setAlarmTime] = useState('');
@@ -14,12 +20,26 @@ export default function Home() {
     );
 
     useEffect(() => {
-        document.addEventListener('keydown', (e) => {
+        const handleKeyDown = (e: KeyboardEvent) => {
             if (e.ctrlKey && e.key === ' ') {
                 resetTimer();
             }
-        });
-    }, []);
+        };
+        document.addEventListener('keydown', handleKeyDown);
+        return () => {
+            document.removeEventListener('keydown', handleKeyDown);
+        };
+    }, [type]);
+
+    useEffect(() => {
+        switch (type) {
+            case 'symbol':
+                setTimeLeft(LEFT_TIME.symbol);
+                break;
+            case 'lore':
+                setTimeLeft(LEFT_TIME.lore);
+        }
+    }, [type]);
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -83,6 +103,7 @@ export default function Home() {
 
     const pauseTimer = () => {
         setIsPaused(true);
+        setIsAlarmActive(false);
     };
 
     const resumeTimer = () => {
@@ -90,7 +111,13 @@ export default function Home() {
     };
 
     const resetTimer = () => {
-        setTimeLeft(120);
+        switch (type) {
+            case 'symbol':
+                setTimeLeft(LEFT_TIME.symbol);
+                break;
+            case 'lore':
+                setTimeLeft(LEFT_TIME.lore);
+        }
         setIsRunning(true);
         setIsPaused(false);
         setIsAlarmActive(false); // 리셋시 알람 비활성화
@@ -142,7 +169,86 @@ export default function Home() {
         a.download = '/김망히 홀심 타이머-Windows-1.0.0-Setup.exe';
         a.click();
     };
+    const toggleType = () => {
+        const newType = type === 'symbol' ? 'lore' : 'symbol';
+        setType(newType);
+    };
 
+    const videioSection = () => {
+        switch (type) {
+            case 'symbol': {
+                return (
+                    <div
+                        className="flex mb-8 flex-col "
+                        style={{ backgroundColor: '#bebebe' }}
+                    >
+                        <div className="flex justify-center">
+                            <video
+                                src="/holysymbol.mp4"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="w-1/2 h-1/2"
+                            />
+                        </div>
+                        <div className="flex justify-center ">
+                            <Image
+                                src="/manghi85.png"
+                                alt="manghi"
+                                width={100}
+                                height={100}
+                                className="mb-3"
+                            />
+                        </div>
+                        <div className="flex justify-center items-center ml-5">
+                            <Image
+                                src="/무지개구름l.png"
+                                width={23}
+                                height={0}
+                                alt="무지개"
+                            ></Image>
+                            <span
+                                className="flex h-[21px] text-xs text-white false false"
+                                style={{
+                                    backgroundImage: 'url(/무지개구름c.png)',
+                                    paddingTop: 3,
+                                }}
+                            >
+                                김망히
+                            </span>
+                            <Image
+                                src="/무지개구름r.png"
+                                width={21}
+                                height={0}
+                                alt="무지개"
+                            ></Image>
+                        </div>
+                    </div>
+                );
+            }
+
+            case 'lore': {
+                return (
+                    <div
+                        className="flex mb-8 flex-col h-60"
+                        style={{ backgroundColor: '#000000' }}
+                    >
+                        <div className="flex justify-center ">
+                            <video
+                                src="/lore.mp4"
+                                autoPlay
+                                loop
+                                muted
+                                playsInline
+                                className="w-full h-1/2"
+                            />
+                        </div>
+                    </div>
+                );
+            }
+        }
+    };
     return (
         <div
             className={`min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-4 transition-all duration-300 ${
@@ -154,66 +260,46 @@ export default function Home() {
                     isAlarmActive ? 'animate-pulse bg-red-100 dark:bg-red-900/30' : ''
                 }`}
             >
+                <div>
+                    <div className="flex items-center justify-center mb-6">
+                        <div className="bg-gray-200 dark:bg-gray-700 rounded-lg p-1 flex">
+                            <button
+                                onClick={toggleType}
+                                className={`px-4 py-2 rounded-md font-medium transition-all duration-200 ${
+                                    type === 'symbol'
+                                        ? 'bg-indigo-600 text-white shadow-md'
+                                        : 'text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100'
+                                }`}
+                            >
+                                홀심 (2분)
+                            </button>
+                            <button
+                                onClick={toggleType}
+                                className={`px-4 py-2 rounded-md font-medium transition-all duration-200 ${
+                                    type === 'lore'
+                                        ? 'bg-indigo-600 text-white shadow-md'
+                                        : 'text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-gray-100'
+                                }`}
+                            >
+                                로어 (4분)
+                            </button>
+                        </div>
+                    </div>
+                </div>
                 <button
                     onClick={onClickDownload}
                     className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
                 >
                     다운로드
                 </button>
-                <div
-                    className="flex mb-8 flex-col "
-                    style={{ backgroundColor: '#bebebe' }}
-                >
-                    <div className="flex justify-center">
-                        <video
-                            src="/holysymbol.mp4"
-                            autoPlay
-                            loop
-                            muted
-                            playsInline
-                            className="w-1/2 h-1/2"
-                        />
-                    </div>
-                    <div className="flex justify-center ">
-                        <Image
-                            src="/manghi85.png"
-                            alt="manghi"
-                            width={100}
-                            height={100}
-                            className="mb-3"
-                        />
-                    </div>
-                    <div className="flex justify-center items-center ml-5">
-                        <Image
-                            src="/무지개구름l.png"
-                            width={23}
-                            height={0}
-                            alt="무지개"
-                        ></Image>
-                        <span
-                            className="flex h-[21px] text-xs text-white false false"
-                            style={{
-                                backgroundImage: 'url(/무지개구름c.png)',
-                                paddingTop: 3,
-                            }}
-                        >
-                            김망히
-                        </span>
-                        <Image
-                            src="/무지개구름r.png"
-                            width={21}
-                            height={0}
-                            alt="무지개"
-                        ></Image>
-                    </div>
-                </div>
+                {videioSection()}
 
                 <div className="flex items-center justify-center mb-6">
                     <input
                         type="number"
                         placeholder="몇초 남았을때 알려줄까요?"
                         min={0}
-                        max={120}
+                        max={type === 'symbol' ? LEFT_TIME.symbol : LEFT_TIME.lore}
                         value={alarmTime}
                         onChange={(e) => setAlarmTime(e.target.value)}
                         className="w-full px-4 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-all duration-200 shadow-sm hover:shadow-md text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
@@ -238,7 +324,18 @@ export default function Home() {
                                     ? 'bg-red-600 animate-pulse'
                                     : 'bg-indigo-600'
                             }`}
-                            style={{ width: `${((120 - timeLeft) / 120) * 100}%` }}
+                            style={{
+                                width: `${
+                                    (((type === 'symbol'
+                                        ? LEFT_TIME.symbol
+                                        : LEFT_TIME.lore) -
+                                        timeLeft) /
+                                        (type === 'symbol'
+                                            ? LEFT_TIME.symbol
+                                            : LEFT_TIME.lore)) *
+                                    100
+                                }%`,
+                            }}
                         ></div>
                     </div>
                 </div>
