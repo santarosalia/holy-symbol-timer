@@ -22,7 +22,7 @@ export default function Home() {
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
             if (e.ctrlKey && e.key === ' ') {
-            e.preventDefault();
+                e.preventDefault();
                 resetTimer();
             }
         };
@@ -287,14 +287,17 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
+
                 <button
                     onClick={onClickDownload}
-                    className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
+                    className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200 mb-4"
                 >
                     다운로드
+                    <div className="text-center text-xs">
+                        다운로드 시 백그라운드에서 단축 키 사용이 가능합니다.
+                    </div>
                 </button>
                 {videioSection()}
-
                 <div className="flex items-center justify-center mb-6">
                     <input
                         type="number"
@@ -306,7 +309,6 @@ export default function Home() {
                         className="w-full px-4 py-3 bg-white dark:bg-gray-700 border-2 border-gray-300 dark:border-gray-600 rounded-xl focus:border-indigo-500 dark:focus:border-indigo-400 focus:outline-none transition-all duration-200 shadow-sm hover:shadow-md text-gray-800 dark:text-gray-200 placeholder-gray-500 dark:placeholder-gray-400"
                     />
                 </div>
-
                 <div className="text-center mb-8">
                     <div
                         className={`text-6xl font-mono font-bold transition-all duration-300 ${
@@ -340,7 +342,6 @@ export default function Home() {
                         ></div>
                     </div>
                 </div>
-
                 <div className="flex flex-col gap-3">
                     {!isRunning ? (
                         <button
@@ -376,7 +377,6 @@ export default function Home() {
                         리셋 (Ctrl + Space)
                     </button>
                 </div>
-
                 {timeLeft === 0 && (
                     <div className="mt-6 p-4 bg-red-100 dark:bg-red-900/30 border border-red-300 dark:border-red-700 rounded-lg">
                         <p className="text-red-800 dark:text-red-200 text-center font-semibold">
@@ -384,7 +384,6 @@ export default function Home() {
                         </p>
                     </div>
                 )}
-
                 {isAlarmActive && (
                     <div className="mt-6 p-4 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-700 rounded-lg animate-pulse">
                         <p className="text-yellow-800 dark:text-yellow-200 text-center font-semibold">
