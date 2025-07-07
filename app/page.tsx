@@ -7,21 +7,17 @@ export default function Home() {
     const [timeLeft, setTimeLeft] = useState(120); // 120초
     const [isRunning, setIsRunning] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
-    const [is85, setIs85] = useState(false);
     const [alarmTime, setAlarmTime] = useState('');
     const [isAlarmActive, setIsAlarmActive] = useState(false);
     const [audio] = useState(
         typeof window !== 'undefined' ? new Audio('/notification.mp3') : null
     );
 
-    useEffect(() => {
-        const savedIs85 = localStorage.getItem('is85') === 'true';
-        setIs85(savedIs85);
-    }, []);
-
-    useEffect(() => {
-        localStorage.setItem('is85', is85.toString());
-    }, [is85]);
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === ' ') {
+            resetTimer();
+        }
+    });
 
     useEffect(() => {
         let interval: NodeJS.Timeout;
@@ -111,10 +107,6 @@ export default function Home() {
         return `${minutes.toString().padStart(2, '0')}:${remainingSeconds
             .toString()
             .padStart(2, '0')}`;
-    };
-
-    const toggleIs85 = () => {
-        setIs85(!is85);
     };
 
     useEffect(() => {
@@ -281,7 +273,7 @@ export default function Home() {
                         onClick={resetTimer}
                         className="w-full bg-gray-600 hover:bg-gray-700 text-white font-semibold py-3 px-6 rounded-lg transition-colors duration-200"
                     >
-                        리셋
+                        리셋 (Ctrl + Space)
                     </button>
                 </div>
 
