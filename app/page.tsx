@@ -54,9 +54,20 @@ export default function Home() {
                     if (alarmTime && newTime === parseInt(alarmTime) && !isAlarmActive) {
                         setIsAlarmActive(true);
                         if (audio) {
-                            audio
-                                .play()
-                                .catch((e) => console.log('오디오 재생 실패:', e));
+                            const playAudio = () => {
+                                audio.currentTime = 0; // 오디오를 처음으로 되돌림
+                                audio
+                                    .play()
+                                    .catch((e) => console.log('오디오 재생 실패:', e));
+                            };
+
+                            // 즉시 첫 번째 재생
+                            playAudio();
+
+                            // 1초 후 두 번째 재생
+                            setTimeout(() => {
+                                playAudio();
+                            }, 500);
                         }
                         if (window.ipcRenderer) {
                             window.ipcRenderer.invoke(
